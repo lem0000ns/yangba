@@ -1,0 +1,39 @@
+{
+    "player": {
+        "id": 514,
+        "firstname": "Klay",
+        "lastname": "Thompson"
+    },
+    "team": {
+        "id": 11,
+        "name": "Golden State Warriors",
+        "nickname": "Warriors",
+        "code": "GSW",
+        "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/de/Warriors_de_Golden_State_logo.svg/1200px-Warriors_de_Golden_State_logo.svg.png"
+    },
+    "game": {
+        "id": 12479
+    },
+    "points": 10,
+    "pos": "SG",
+    "min": "13",
+    "fgm": 2,
+    "fga": 8,
+    "fgp": "25.0",
+    "ftm": 4,
+    "fta": 6,
+    "ftp": "66.7",
+    "tpm": 2,
+    "tpa": 7,
+    "tpp": "28.6",
+    "offReb": 0,
+    "defReb": 4,
+    "totReb": 4,
+    "assists": 0,
+    "pFouls": 0,
+    "steals": 0,
+    "turnovers": 2,
+    "blocks": 1,
+    "plusMinus": "+6",
+    "comment": null
+}
