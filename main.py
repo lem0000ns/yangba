@@ -26,7 +26,7 @@ def getSeasonStats(lastSzn, stats):
         return data
     return None
 
-def main():
+def testStuff():
     try:
         dumpJson('test1.json', getData("/games?id=1427"))
         with open('playerStats2023.json', 'r') as f:
@@ -37,6 +37,9 @@ def main():
         dumpJson('test2.json', data['klay thompson'][0])
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def main():
+    testStuff()
     
 
 if __name__ == "__main__":
