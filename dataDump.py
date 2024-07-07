@@ -3,9 +3,9 @@ import time
 from main import dumpJson, getData, getSeasonStats
 
 def test_time(func):
-    def wrapper():
+    def wrapper(*args, **kwargs):
         start_time = int(time.time())
-        res = func()
+        res = func(*args, **kwargs)
         print(f"This data dump took {int(time.time()) - start_time} seconds")
         return res
     return wrapper
@@ -25,7 +25,7 @@ def getAllPlayers(szn, playerStats, startTeamID):
                 print(f'Failed to fetch player {name} data for season {szn}')
 
 @test_time
-def getData():
+def startDump():
     try:
         #seasons = getData("/seasons")['response']
         seasons = [2021, 2022, 2023]
@@ -48,7 +48,7 @@ def getData():
         print(f"An error occurred: {str(e)}")
 
 def main():
-    getData()
+    startDump()
 
 if __name__ == "__main__":
     main()
