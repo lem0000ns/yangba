@@ -11,9 +11,11 @@ def test_time(func):
     return wrapper
 
 def getAllPlayers(szn, playerStats, startTeamID):
+    nbaTeamIds = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 40, 41]
     for team in range(startTeamID, startTeamID + 15):
-        teamPlayers = getData(f"/players?season={szn}&team={team}")
-        print("Currently on team " + str(team))
+        teamID = nbaTeamIds[team]
+        teamPlayers = getData(f"/players?season={szn}&team={teamID}")
+        print("Currently on team " + str(teamID))
         for p in range(0, len(teamPlayers['response'])):
             stats = teamPlayers['response'][p]
             name = stats['firstname'].lower() + " " + stats['lastname'].lower()

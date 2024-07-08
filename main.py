@@ -28,13 +28,16 @@ def getSeasonStats(lastSzn, stats):
 
 def testStuff():
     try:
-        dumpJson('test1.json', getData("/games?id=1427"))
-        with open('playerStats2023.json', 'r') as f:
-            data = json.load(f)
-        #player's stats from every game this season
-        dumpJson('test1.json', data['jarred vanderbilt'])
-        #player's stats from individual game this season
-        dumpJson('test2.json', data['klay thompson'][0])
+        team = getData("/teams?league=standard")
+        #teamName = getData("/teams?id=33")['response'][0]['name']
+        dumpJson('test2.json', team)
+        #print(teamName)
+        # with open('playerStats2023.json', 'r') as f:
+        #     data = json.load(f)
+        # #player's stats from every game this season
+        # dumpJson('test1.json', data['jarred vanderbilt'])
+        # #player's stats from individual game this season
+        # dumpJson('test2.json', data['klay thompson'][0])
     except Exception as e:
         print(f"An error occurred: {e}")
 
