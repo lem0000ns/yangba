@@ -9,22 +9,37 @@ headers = {
 }
 
 def dumpJson(testFile, data):
-    with open(testFile, 'w') as f:
-        json.dump(data, f, indent=4)
+    if not isinstance(testFile, str):
+        print("testFile parameter must be of type string")
+        return False
+    try:
+        with open(testFile, 'w') as f:
+            json.dump(data, f, indent=4)
+        return True
+    except Exception as e:
+        print(f"Could not dump into json file with exception {e}")
+        return False
 
 def getData(endpoint):
-    response = requests.get(url + endpoint, headers=headers)
+    try:
+        response = requests.get(url + endpoint, headers=headers)
+    except Exception as e:
+        print(f"Could not fetch data with endpoint {endpoint}")
+        return None
+    
     if (response.status_code == 200):
         return response.json()
     print(f"Could not fetch data with endpoint {endpoint} with status code {response.status_code}")
     return None
 
 def getSeasonStats(lastSzn, stats):
-    id = stats['id']
-    data = getData("/players/statistics?season={}&id={}".format(lastSzn, id))['response']
-    if (data):
+    try:
+        id = stats['id']
+        data = getData("/players/statistics?season={}&id={}".format(lastSzn, id))['response']
         return data
-    return None
+    except Exception as e:
+        print(f"Could not fetch season stats for this player")
+        return None
 
 def testStuff():
     try:
@@ -43,7 +58,6 @@ def testStuff():
 
 def main():
     testStuff()
-    
 
 if __name__ == "__main__":
     main()
