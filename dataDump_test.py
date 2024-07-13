@@ -1,4 +1,4 @@
-from main import dumpJson, getData, getSeasonStats
+from dataDump import dumpJson, getData, getSeasonStats
 import pytest
 
 #testing dumpJson inputs

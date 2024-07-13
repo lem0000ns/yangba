@@ -3,10 +3,50 @@ import boto3
 import threading
 import random
 import time
-from main import getData, getSeasonStats
+import requests
 
 bucket_name = "nba-players.bucket"
 s3_client = boto3.client('s3', 'us-west-1')
+
+url = "https://api-nba-v1.p.rapidapi.com"
+
+headers = {
+    'x-rapidapi-key': "b990592d51msh5e1029396589d1bp18dd72jsnce5f8c3e8b6c",
+    'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
+}
+
+def dumpJson(testFile, data):
+    if not isinstance(testFile, str):
+        print("testFile parameter must be of type string")
+        return False
+    try:
+        with open(testFile, 'w') as f:
+            json.dump(data, f, indent=4)
+        return True
+    except Exception as e:
+        print(f"Could not dump into json file with exception {e}")
+        return False
+
+def getData(endpoint):
+    try:
+        response = requests.get(url + endpoint, headers=headers)
+    except Exception as e:
+        print(f"Could not fetch data with endpoint {endpoint}")
+        return None
+    
+    if (response.status_code == 200):
+        return response.json()
+    print(f"Could not fetch data with endpoint {endpoint} with status code {response.status_code}")
+    return None
+
+def getSeasonStats(lastSzn, stats):
+    try:
+        id = stats['id']
+        data = getData("/players/statistics?season={}&id={}".format(lastSzn, id))['response']
+        return data
+    except Exception as e:
+        print(f"Could not fetch season stats for this player")
+        return None
 
 def dumpS3(dataList, fileName, szn):
     print("K")
