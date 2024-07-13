@@ -1,6 +1,20 @@
+import json
+import boto3
 import threading
 import time
-from main import dumpJson, getData, getSeasonStats
+from main import getData, getSeasonStats
+
+bucket_name = "nba-players.bucket"
+s3_client = boto3.client('s3', 'us-west-1')
+
+def dumpS3(dataList, fileName, szn):
+    print("K")
+    s3_path = f"playerStats{szn}/{fileName}.json"
+    save_to_s3 = s3_client.put_object(
+        Key=s3_path,
+        Bucket=bucket_name,
+        Body=(json.dumps(dataList).encode('UTF-8'))
+    )
 
 def test_time(func):
     def wrapper(*args, **kwargs):
@@ -10,12 +24,15 @@ def test_time(func):
         return res
     return wrapper
 
+#startTeamID parameter only needed for threads
 def getAllPlayers(szn, playerStats, startTeamID):
     nbaTeamIds = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 40, 41]
-    for team in range(startTeamID, startTeamID + 15):
-        teamID = nbaTeamIds[team]
+    #nbaTeamIds = [29, 30, 31, 38, 40, 41]
+    for team in range(1, 31):
+        teamID = nbaTeamIds[team - 1]
+        teamName = getData(f"/teams?id={teamID}")['response'][0]['name'].replace(" ", "")
         teamPlayers = getData(f"/players?season={szn}&team={teamID}")
-        print("Currently on team " + str(teamID))
+        print("Currently on team " + str(team))
         for p in range(0, len(teamPlayers['response'])):
             stats = teamPlayers['response'][p]
             name = stats['firstname'].lower() + " " + stats['lastname'].lower()
@@ -25,29 +42,45 @@ def getAllPlayers(szn, playerStats, startTeamID):
                 playerStats[name] = sznStats
             else:
                 print(f'Failed to fetch player {name} data for season {szn}')
+        dumpS3(playerStats, teamName, szn)
+        playerStats = {}
 
 @test_time
 def startDump():
     try:
-        #seasons = getData("/seasons")['response']
-        seasons = [2021, 2022, 2023]
         playerStats = {}
-        threads = []
-        for szn in seasons:
-            print(szn)
-            #running 2 threads concurrently for 30 teams (each thread = 15 teams)
-            for i in range(2):
-                thread = threading.Thread(target=getAllPlayers, args=(szn, playerStats, 1 + 15 * i))
-                threads.append(thread)
-                thread.start()
-            for thread in threads:
-                thread.join()
-            dumpJson(f'playerStats{szn}.json', playerStats)
-            playerStats = {}
-            threads = []
+        # only for multiple seasons
+        # seasons = getData("/seasons")['response'][-1]
+        # threads = []
+        # for szn in seasons:
+        #     print(szn)
+        #     #running 2 threads concurrently for 30 teams (each thread = 15 teams)
+        #     for i in range(1):
+        #         thread = threading.Thread(target=getAllPlayers, args=(szn, playerStats, 1 + 30 * i))
+        #         threads.append(thread)
+        #         thread.start()
+        #     for thread in threads:
+        #         thread.join()
+        #     threads = []
+        lastSeason = getData("/seasons")['response'][-1]
+        getAllPlayers(lastSeason, playerStats, 1)
         
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+
+# def lambda_handler(event, context):
+#     try:
+#         startDump()
+#         return {
+#             'statusCode': 200,
+#             'body': 'File uploaded successfully'
+#         }
+#     except Exception as e:
+#         print(f'Error uploading file: {str(e)}')
+#         return {
+#             'statusCode': 500,
+#             'body': 'Error uploading file'
+#         }
 
 def main():
     startDump()
