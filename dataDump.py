@@ -118,8 +118,5 @@ def startDump():
 #             'body': 'Error uploading file'
 #         }
 
-def main():
-    startDump()
-
 if __name__ == "__main__":
-    main()
+    startDump()
