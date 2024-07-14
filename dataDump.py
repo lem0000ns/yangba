@@ -15,6 +15,14 @@ headers = {
     'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
 }
 
+def test_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = int(time.time())
+        res = func(*args, **kwargs)
+        print(f"This data dump took {int(time.time()) - start_time} seconds")
+        return res
+    return wrapper
+
 def dumpJson(testFile, data):
     if not isinstance(testFile, str):
         print("testFile parameter must be of type string")
@@ -43,7 +51,9 @@ def getSeasonStats(lastSzn, stats):
     try:
         id = stats['id']
         data = getData("/players/statistics?season={}&id={}".format(lastSzn, id))['response']
-        return data
+        if data is not None:
+            return data
+        return None
     except Exception as e:
         print(f"Could not fetch season stats for this player")
         return None
@@ -57,18 +67,9 @@ def dumpS3(dataList, fileName, szn):
         Body=(json.dumps(dataList).encode('UTF-8'))
     )
 
-def test_time(func):
-    def wrapper(*args, **kwargs):
-        start_time = int(time.time())
-        res = func(*args, **kwargs)
-        print(f"This data dump took {int(time.time()) - start_time} seconds")
-        return res
-    return wrapper
-
 #startTeamID parameter only needed for threads
 def getAllPlayers(szn, playerStats, startTeamID):
     nbaTeamIds = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 40, 41]
-    #nbaTeamIds = [29, 30, 31, 38, 40, 41]
     for team in range(startTeamID, startTeamID + 15):
         teamID = nbaTeamIds[team - 1]
         teamName = getData(f"/teams?id={teamID}")['response'][0]['name'].replace(" ", "")
