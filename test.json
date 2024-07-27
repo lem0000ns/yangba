@@ -1,0 +1,95 @@
+{
+    "get": "games/",
+    "parameters": {
+        "id": "4235"
+    },
+    "errors": [],
+    "results": 1,
+    "response": [
+        {
+            "id": 4235,
+            "league": "vegas",
+            "season": 2017,
+            "date": {
+                "start": "2017-07-07T22:00:00.000Z",
+                "end": null,
+                "duration": "1:41"
+            },
+            "stage": 2,
+            "status": {
+                "clock": null,
+                "halftime": false,
+                "short": 3,
+                "long": "Finished"
+            },
+            "periods": {
+                "current": 4,
+                "total": 4,
+                "endOfPeriod": false
+            },
+            "arena": {
+                "name": null,
+                "city": null,
+                "state": null,
+                "country": null
+            },
+            "teams": {
+                "visitors": {
+                    "id": 38,
+                    "name": "Toronto Raptors",
+                    "nickname": "Raptors",
+                    "code": "TOR",
+                    "logo": "https://upload.wikimedia.org/wikipedia/fr/8/89/Raptors2015.png"
+                },
+                "home": {
+                    "id": 23,
+                    "name": "New Orleans Pelicans",
+                    "nickname": "Pelicans",
+                    "code": "NOP",
+                    "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/2/21/New_Orleans_Pelicans.png/200px-New_Orleans_Pelicans.png"
+                }
+            },
+            "scores": {
+                "visitors": {
+                    "win": 1,
+                    "loss": 0,
+                    "series": {
+                        "win": 0,
+                        "loss": 0
+                    },
+                    "linescore": [
+                        "23",
+                        "27",
+                        "21",
+                        "25"
+                    ],
+                    "points": 96
+                },
+                "home": {
+                    "win": 0,
+                    "loss": 1,
+                    "series": {
+                        "win": 0,
+                        "loss": 0
+                    },
+                    "linescore": [
+                        "23",
+                        "34",
+                        "16",
+                        "20"
+                    ],
+                    "points": 93
+                }
+            },
+            "officials": [
+                "Karl Lane",
+                "Suyash Mehta",
+                "Shante Anderson",
+                "Tommy Morrisey"
+            ],
+            "timesTied": 5,
+            "leadChanges": 21,
+            "nugget": null
+        }
+    ]
+}
