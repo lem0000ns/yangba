@@ -136,7 +136,12 @@ def flattenDump(season):
                     playerStats["gameID"] = currPlayer["game"]["id"]
                     playerStats["season"] = season
                     playerStats["points"] = currPlayer["points"]
-                    playerStats["min"] = (int)(currPlayer["min"][0:2])
+                    #if min has : in it e.g. 30:35
+                    if len(currPlayer["min"]) > 2:
+                        playerStats["min"] = (int)(currPlayer["min"][0:2])
+                    #if min is just a single int
+                    else:
+                        playerStats["min"] = (int)(currPlayer["min"])
                     playerStats["fgm"] = currPlayer["fgm"]
                     playerStats["fga"] = currPlayer["fga"]
                     playerStats["ftm"] = currPlayer["ftm"]
@@ -265,4 +270,4 @@ def compute_filterQuery(filters):
 
 if __name__ == "__main__":
     #writeMySQL("games", 2023)
-    print(compute_filterQuery("points>30,min=10,3pm<7,ast=8"))
+    flattenDump(2023)

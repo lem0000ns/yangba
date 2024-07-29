@@ -55,20 +55,27 @@ def compute_filterQuery(filters):
         
     return query
 
-def compute_aggQuery(agg, stat, event):
-    name = event['queryStringParameters']['name']
+def compute_Query(agg, event):
+    stat = event['queryStringParameters'].get('stat', None)
+    name = event['queryStringParameters'].get('name', None)
     playerid = event['queryStringParameters'].get('playerid', None)
     seasons = event['multiValueQueryStringParameters'].get('season', None)
     stages = event['multiValueQueryStringParameters'].get('stage', None)
     filters = event['queryStringParameters'].get('filter', None)
+    limit = event['queryStringParameters'].get('limit', None)
     
     query = ""
     
-    if stat != '3pct' and stat != 'fgpct' and stat != 'ftpct':
-        query = f"SELECT {agg}({stat})" + table + f" WHERE v.name='{name}'"
+    if (agg == 'None'):
+        query = "SELECT v.name, v.playerID, g.gameID, g.stage, g.gameDate, v.season, v.points, v.min, v.fgm, v.fga, v.ftm, v.fta, v.3pm, v.3pa, v.reb, v.ast, v.steals, v.blocks, v.turnovers" + table
+        if name:
+            query += f" WHERE v.name='{name}'"
     else:
-        sToQ = {'3pct': '3p', 'fgpct': 'fg', 'ftpct': 'ft'}
-        query = f"SELECT SUM({sToQ[stat]}m) / SUM({sToQ[stat]}a)" + table + f" WHERE v.name='{name}'"
+        if stat != '3pct' and stat != 'fgpct' and stat != 'ftpct':
+            query = f"SELECT {agg}({stat})" + table + f" WHERE v.name='{name}'"
+        else:
+            sToQ = {'3pct': '3p', 'fgpct': 'fg', 'ftpct': 'ft'}
+            query = f"SELECT SUM({sToQ[stat]}m) / SUM({sToQ[stat]}a)" + table + f" WHERE v.name='{name}'"
         
     if playerid:
         query += f" AND v.playerid={playerid}"
@@ -78,9 +85,11 @@ def compute_aggQuery(agg, stat, event):
     if stages:
         stages_str = ', '.join(map(str, stages))
         query += f" AND g.stage IN ({stages_str})"
-        
     if filters:
         query += compute_filterQuery(filters)
+    
+    if (agg == 'None'):
+        query += f" LIMIT {limit}"
     
     return query
 
@@ -94,17 +103,25 @@ def lambda_handler(event, context):
         if resource == 'stats':
             stat = event['queryStringParameters'].get('stat', None)
             aggregate = event['queryStringParameters'].get('agg', None)
-            query = compute_aggQuery(aggregate, stat, event)
+            query = compute_Query(aggregate, event)
             cursor.execute(query)
             result = cursor.fetchone()
             res_body[f'{aggregate}_{stat}'] = float(result[0])
-            res_body['query'] = query
+            
+        elif resource == 'games':
+            query = compute_Query('None', event)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            #combine column names with row values
+            columns = [colName[0] for colName in cursor.description]
+            res_body['games'] = [dict(zip(columns, row)) for row in result]
 
         http_res['statusCode'] = 200
     
     except Exception as e:
         print(f"Error handling route with exception: {e}")
         http_res['statusCode'] = 500
+        http_res['error'] = str(e)
     
     http_res['headers'] = {}
     http_res['headers']['Content-Type'] = "application/json"
