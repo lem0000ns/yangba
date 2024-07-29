@@ -1,6 +1,28 @@
-import json, boto3, threading, time, requests, pymysql, os
+import json, boto3, threading, time, requests, pymysql, re
 from random import randint
 from datetime import datetime, timedelta
+import boto3
+from botocore.exceptions import ClientError
+
+def get_secret():
+    secret_name = "Mysql/password"
+    region_name = "us-west-1"
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
+
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+        return get_secret_value_response['SecretString'][32:46]
+    except ClientError as e:
+        print(f"Error retrieving password: {e}")
+        raise
 
 #configuration variables
 bucket_name = "nba-players.bucket"
@@ -10,7 +32,7 @@ headers = {
     'x-rapidapi-key': "b990592d51msh5e1029396589d1bp18dd72jsnce5f8c3e8b6c",
     'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
 }
-pw = os.getenv('DB_PASSWORD')
+pw = get_secret()
 connection = pymysql.connect(
     host='yba-database.c30igyqguxod.us-west-1.rds.amazonaws.com', 
     user='admin', 
@@ -114,7 +136,7 @@ def flattenDump(season):
                     playerStats["gameID"] = currPlayer["game"]["id"]
                     playerStats["season"] = season
                     playerStats["points"] = currPlayer["points"]
-                    playerStats["min"] = currPlayer["min"]
+                    playerStats["min"] = (int)(currPlayer["min"][0:2])
                     playerStats["fgm"] = currPlayer["fgm"]
                     playerStats["fga"] = currPlayer["fga"]
                     playerStats["ftm"] = currPlayer["ftm"]
@@ -220,5 +242,27 @@ def writeMySQL(table, season):
 #             'body': f'Error uploading file: {e}'
 #         }
 
+def compute_filterQuery(filters):
+    query = ""
+    tokens = filters.split(',')
+    #each token formatted as statopx where x is int and op is either <, >, or = e.g. points>30
+    for t in tokens:
+        
+        #find first index of either <, >, or =
+        def findOpIndex(t):
+            operators = ['<', '>', '=']
+            for op in operators:
+                try:
+                    return t.index(op)
+                except ValueError:
+                    continue
+            return -1  # Return -1 if none of the operators are found
+            
+        index = findOpIndex(t)
+        query += f" AND v.{t[0:index]} {t[index]} {t[index+1:]}"
+        
+    return query
+
 if __name__ == "__main__":
-    print("HI")
+    #writeMySQL("games", 2023)
+    print(compute_filterQuery("points>30,min=10,3pm<7,ast=8"))
