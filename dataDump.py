@@ -39,6 +39,7 @@ connection = pymysql.connect(
     password=pw, 
     database='yba'
 )
+allNames = set()
 
 def test_time(func):
     def wrapper(*args, **kwargs):
@@ -93,7 +94,7 @@ def getSeasonStats(lastSzn, stats):
         return None
 
 #gets data in regular json format to be parsed into ndjson format by flattenDump using 2 threads
-def getAllPlayers(szn, data, startTeamID):
+def getAllPlayers(szn, data, startTeamID, onlyNames):
     nbaTeamIds = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 40, 41]
     for team in range(startTeamID, startTeamID + 15):
         teamID = nbaTeamIds[team - 1]
@@ -102,13 +103,22 @@ def getAllPlayers(szn, data, startTeamID):
         for p in range(0, len(teamPlayers['response'])):
             stats = teamPlayers['response'][p]
             name = stats['firstname'].lower() + " " + stats['lastname'].lower()
+            
+            #dumps names in names.txt
+            if onlyNames:
+                if name not in allNames:
+                    data.append(name)
+                    allNames.add(name)
             #stores in hashmap with players' names as keys and their szn stats as values
-            sznStats = getSeasonStats(szn, stats)
-            if (sznStats):
-                data[name] = sznStats
             else:
-                print(f'Failed to fetch player {name} data for season {szn}')
+                sznStats = getSeasonStats(szn, stats)
+                if (sznStats):
+                    data[name] = sznStats
+                else:
+                    print(f'Failed to fetch player {name} data for season {szn}')
+
         time.sleep(randint(1,5))
+        
 
 @test_time
 def flattenDump(season):
@@ -118,7 +128,7 @@ def flattenDump(season):
         #two threads
         threads = []
         for i in range(2):
-            thread = threading.Thread(target=getAllPlayers, args=(season, data, 1 + 15 * i))
+            thread = threading.Thread(target=getAllPlayers, args=(season, data, 1 + 15 * i, False))
             threads.append(thread)
             thread.start()
             time.sleep(5)
@@ -218,6 +228,28 @@ def writeMySQL(table, season):
     except Exception as e:
         print(f"Error connecting with MySQL with exception: {e}")
 
+def writeNames(season):
+    threads = []
+    nameFile = s3_client.get_object(Bucket=bucket_name, Key="names.txt")
+    names = nameFile['Body'].read().decode('utf-8')
+    for n in names.splitlines():
+        allNames.add(n)
+
+    #adds any new names in most recent season to allNames
+    data = []
+    for i in range(2):
+        thread = threading.Thread(target=getAllPlayers, args=(season, data, 1 + 15 * i, True))
+        threads.append(thread)
+        thread.start()
+    for thread in threads:
+        thread.join()
+    with open('names.txt', 'a') as f:
+        for n in data:
+            f.write(n + "\n")
+    with open('names.txt', 'rb') as f:
+        s3_client.put_object(Bucket=bucket_name, Key="names.txt", Body=f)
+
+
 # def lambda_handler(event, context):
 #     try:
 #         #gets most recent season
@@ -247,27 +279,6 @@ def writeMySQL(table, season):
 #             'body': f'Error uploading file: {e}'
 #         }
 
-def compute_filterQuery(filters):
-    query = ""
-    tokens = filters.split(',')
-    #each token formatted as statopx where x is int and op is either <, >, or = e.g. points>30
-    for t in tokens:
-        
-        #find first index of either <, >, or =
-        def findOpIndex(t):
-            operators = ['<', '>', '=']
-            for op in operators:
-                try:
-                    return t.index(op)
-                except ValueError:
-                    continue
-            return -1  # Return -1 if none of the operators are found
-            
-        index = findOpIndex(t)
-        query += f" AND v.{t[0:index]} {t[index]} {t[index+1:]}"
-        
-    return query
-
 if __name__ == "__main__":
     #writeMySQL("games", 2023)
-    flattenDump(2023)
+    writeNames(2023)
