@@ -33,6 +33,40 @@ connection = pymysql.connect(
 )
 cursor = connection.cursor()
 table = " FROM version2 v INNER JOIN games g ON v.gameID = g.gameID"
+s3_client = boto3.client('s3', 'us-west-1')
+
+#uses levenshtein distance to get closest word
+def getClosestName(name):
+    nameFile = s3_client.get_object(Bucket="nba-players.bucket", Key="names.txt")
+    names = nameFile['Body'].read().decode('utf-8')
+    minDistance = float("inf")
+    res = ""
+    for n in names.splitlines():
+        
+        #edit distance on leetcode
+        def levenshtein(n, name):
+            cache = [[float("inf")] * (len(name) + 1) for i in range(len(n) + 1)]
+        
+            for j in range(len(name) + 1):
+                cache[len(n)][j] = len(name) - j
+            for i in range(len(n) + 1):
+                cache[i][len(name)] = len(n) - i
+                
+            for i in range(len(n) - 1, -1, -1):
+                for j in range(len(name) - 1, -1, -1):
+                    if n[i] == name[j]:
+                        cache[i][j] = cache[i+1][j+1]
+                    else:
+                        cache[i][j] = 1 + min(cache[i][j+1], cache[i+1][j], cache[i+1][j+1])
+            
+            return cache[0][0]
+
+        currDist = levenshtein(n, name)
+        if currDist < minDistance:
+            minDistance = currDist
+            res = n
+
+    return res
 
 def compute_filterQuery(filters):
     query = ""
@@ -58,6 +92,9 @@ def compute_filterQuery(filters):
 def compute_Query(agg, event):
     stat = event['queryStringParameters'].get('stat', None)
     name = event['queryStringParameters'].get('name', None)
+    if name is not None:
+        #fuzzy matching in case user input name is not in database
+        name = getClosestName(name)
     playerid = event['queryStringParameters'].get('playerid', None)
     seasons = event['multiValueQueryStringParameters'].get('season', None)
     stages = event['multiValueQueryStringParameters'].get('stage', None)
@@ -66,7 +103,7 @@ def compute_Query(agg, event):
     
     query = ""
     
-    if (agg == 'None'):
+    if agg == 'Games':
         query = "SELECT v.name, v.playerID, g.gameID, g.stage, g.gameDate, v.season, v.points, v.min, v.fgm, v.fga, v.ftm, v.fta, v.3pm, v.3pa, v.reb, v.ast, v.steals, v.blocks, v.turnovers" + table
         if name:
             query += f" WHERE v.name='{name}'"
@@ -87,8 +124,7 @@ def compute_Query(agg, event):
         query += f" AND g.stage IN ({stages_str})"
     if filters:
         query += compute_filterQuery(filters)
-    
-    if (agg == 'None'):
+    if agg == 'Games':
         query += f" LIMIT {limit}"
     
     return query
@@ -109,7 +145,7 @@ def lambda_handler(event, context):
             res_body[f'{aggregate}_{stat}'] = float(result[0])
             
         elif resource == 'games':
-            query = compute_Query('None', event)
+            query = compute_Query('Games', event)
             cursor.execute(query)
             result = cursor.fetchall()
             #combine column names with row values
