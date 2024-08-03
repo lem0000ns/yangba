@@ -1,7 +1,6 @@
 import json
 import pymysql
 import boto3
-import re
 from botocore.exceptions import ClientError
 
 def get_secret():
@@ -93,10 +92,12 @@ def compute_Query(agg, event):
     stat = event['queryStringParameters'].get('stat', None)
     name = event['queryStringParameters'].get('name', None)
     if name is not None:
-        #fuzzy matching in case user input name is not in database
-        name = getClosestName(name)
+        cursor.execute("SELECT COUNT(*)" + table + f" WHERE v.name = '{name}'")
+        if cursor.fetchone()[0] == 0:
+            #fuzzy matching in case user input name is not in database
+            name = getClosestName(name)
     playerid = event['queryStringParameters'].get('playerid', None)
-    seasons = event['multiValueQueryStringParameters'].get('season', None)
+    seasons = event['queryStringParameters'].get('seasons', None)
     stages = event['multiValueQueryStringParameters'].get('stage', None)
     filters = event['queryStringParameters'].get('filter', None)
     limit = event['queryStringParameters'].get('limit', None)
@@ -117,8 +118,13 @@ def compute_Query(agg, event):
     if playerid:
         query += f" AND v.playerid={playerid}"
     if seasons:
-        seasons_str = ', '.join(map(str, seasons))
-        query += f" AND v.season IN ({seasons_str})"
+        #if seasons is just one season, e.g. 2023
+        if len(seasons) == 4:
+            query += f" AND v.season={seasons}"
+        #if seasons spans multiple seasons, e.g. 2015-2019
+        else:
+            seasonSplit = seasons.split('-')
+            query += f" AND v.season BETWEEN " + seasonSplit[0] + " AND " + seasonSplit[1]
     if stages:
         stages_str = ', '.join(map(str, stages))
         query += f" AND g.stage IN ({stages_str})"
@@ -135,6 +141,7 @@ def lambda_handler(event, context):
     try:
         path = event['resource'].split('/')
         resource = path[1]
+        query = ""
         
         if resource == 'stats':
             stat = event['queryStringParameters'].get('stat', None)
@@ -151,6 +158,7 @@ def lambda_handler(event, context):
             #combine column names with row values
             columns = [colName[0] for colName in cursor.description]
             res_body['games'] = [dict(zip(columns, row)) for row in result]
+            res_body['query'] = query
 
         http_res['statusCode'] = 200
     
