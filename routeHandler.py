@@ -33,11 +33,12 @@ connection = pymysql.connect(
 cursor = connection.cursor()
 table = " FROM version2 v INNER JOIN games g ON v.gameID = g.gameID"
 s3_client = boto3.client('s3', 'us-west-1')
+nameFile = s3_client.get_object(Bucket="nba-players.bucket", Key="names.txt")
+names = nameFile['Body'].read().decode('utf-8')
 
 #uses levenshtein distance to get closest word
+#returns array [name, match score (edit distance)]
 def getClosestName(name):
-    nameFile = s3_client.get_object(Bucket="nba-players.bucket", Key="names.txt")
-    names = nameFile['Body'].read().decode('utf-8')
     minDistance = float("inf")
     res = ""
     for n in names.splitlines():
@@ -65,7 +66,7 @@ def getClosestName(name):
             minDistance = currDist
             res = n
 
-    return res
+    return [res, minDistance]
 
 def compute_filterQuery(filters):
     query = ""
@@ -88,14 +89,18 @@ def compute_filterQuery(filters):
         
     return query
 
+#returns array [name, query]
 def compute_Query(agg, event):
     stat = event['queryStringParameters'].get('stat', None)
     name = event['queryStringParameters'].get('name', None)
+    editDistance = 0
     if name is not None:
         cursor.execute("SELECT COUNT(*)" + table + f" WHERE v.name = '{name}'")
         if cursor.fetchone()[0] == 0:
             #fuzzy matching in case user input name is not in database
-            name = getClosestName(name)
+            fuz = getClosestName(name)
+            name = fuz[0]
+            editDistance = fuz[1]
     playerid = event['queryStringParameters'].get('playerid', None)
     seasons = event['queryStringParameters'].get('seasons', None)
     stages = event['multiValueQueryStringParameters'].get('stage', None)
@@ -133,7 +138,7 @@ def compute_Query(agg, event):
     if agg == 'Games':
         query += f" LIMIT {limit}"
     
-    return query
+    return [name, query, editDistance]
 
 def lambda_handler(event, context):
     res_body = {}
@@ -147,16 +152,20 @@ def lambda_handler(event, context):
             stat = event['queryStringParameters'].get('stat', None)
             aggregate = event['queryStringParameters'].get('agg', None)
             query = compute_Query(aggregate, event)
-            cursor.execute(query)
+            cursor.execute(query[1])
             result = cursor.fetchone()
+            res_body['name'] = query[0]
+            res_body['edit distance'] = query[2]
             res_body[f'{aggregate}_{stat}'] = float(result[0])
             
         elif resource == 'games':
             query = compute_Query('Games', event)
-            cursor.execute(query)
+            cursor.execute(query[1])
             result = cursor.fetchall()
             #combine column names with row values
             columns = [colName[0] for colName in cursor.description]
+            res_body['name'] = query[0]
+            res_body['edit distance'] = query[2]
             res_body['games'] = [dict(zip(columns, row)) for row in result]
             res_body['query'] = query
 
@@ -172,3 +181,6 @@ def lambda_handler(event, context):
     http_res['body'] = json.dumps(res_body, indent=4)
     
     return http_res
+
+if __name__ == "__main__":
+    print(getClosestName("russell curry"))
