@@ -37,20 +37,27 @@ class MySQL_Writer:
         obj = s3_client.get_object(Bucket=bucket_name, Key=key)
         ndjson_data = obj['Body'].read().decode('utf-8')
         data = [json.loads(line) for line in ndjson_data.splitlines()]
-        
+
+        insert_query = f"INSERT INTO {self.table} ({self.columns_placeholder}) VALUES "
+        allValues = []
         for game in data:
             values = [game.get(col, None) for col in self.columns]
-            insert_query = f"INSERT INTO {self.table} ({self.columns_placeholder}) VALUES ({self.values_placeholder}) ON DUPLICATE KEY UPDATE "
-            update_clause = ', '.join([f"{col} = VALUES({col})" for col in self.columns])
-            insert_query += update_clause
-            #ignore player games who played in summer league / another league outside of nba
-            try:
-                cursor.execute(insert_query, values)
-            except Exception as e:
-                #print(str(e))
-                continue
-        
-        connection.commit()
+            #if OPI is None then don't include it
+            if values[18] != None:
+                values[0] = '"' + values[0] + '"'
+                values[3] = '"' + values[3] + '"'
+                allValues.append('(' + ', '.join(map(str, values)) + ')')
+            else:
+                print(values)
+        insert_query += ', '.join(allValues)
+        insert_query += " ON DUPLICATE KEY UPDATE "
+        update_clause = ', '.join([f"{col} = VALUES({col})" for col in self.columns])
+        insert_query += update_clause
+        try:
+            cursor.execute(insert_query)
+            connection.commit()
+        except Exception as e:
+            print(f"error transferring data to version2 with error: {e}")
         
     @test_time
     def normalizeOPI(self):
@@ -59,7 +66,6 @@ class MySQL_Writer:
         if self.table == "version2":
             #gets rid of former nba players from database whose games are in different league
             cursor.execute(f"DELETE FROM version2 WHERE team=\"\" AND season={self.season}")
-
             cursor.execute(f"SELECT MAX(OPI) FROM version2 WHERE season={self.season}")
             max_OPI = cursor.fetchone()[0]
             cursor.execute(f"SELECT MIN(OPI) FROM version2 WHERE season={self.season}")

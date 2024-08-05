@@ -154,8 +154,9 @@ def lambda_handler(event, context):
             query = compute_Query(aggregate, event)
             cursor.execute(query[1])
             result = cursor.fetchone()
-            res_body['name'] = query[0]
-            res_body['edit distance'] = query[2]
+            if query[0]:
+                res_body['name'] = query[0]
+                res_body['edit distance'] = query[2]
             res_body[f'{aggregate}_{stat}'] = float(result[0])
             
         elif resource == 'games':
@@ -164,8 +165,9 @@ def lambda_handler(event, context):
             result = cursor.fetchall()
             #combine column names with row values
             columns = [colName[0] for colName in cursor.description]
-            res_body['name'] = query[0]
-            res_body['edit distance'] = query[2]
+            if query[0]:
+                res_body['name'] = query[0]
+                res_body['edit distance'] = query[2]
             res_body['games'] = [dict(zip(columns, row)) for row in result]
             res_body['query'] = query
 

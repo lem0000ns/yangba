@@ -1,5 +1,5 @@
-import json, boto3, requests, pymysql
-from utilities import MySQL_Writer, DataDumper
+import json, boto3, requests, pymysql, threading, time
+from utilities import MySQL_Writer, NameDumper, GameDumper, PlayerDumper, DataDumper
 
 def get_secret():
     secret_name = "Mysql/password"
@@ -62,12 +62,12 @@ def lambda_handler(event, context):
         #gets most recent season
         season = getData("/seasons")['response'][-1]
 
-        dd = DataDumper("names", season)
-        dd.dumpData()
-        dd.setType("games")
-        dd.dumpData()
-        dd.setType("players")
-        dd.dumpData()
+        nd = NameDumper(season)
+        nd.dumpData()
+        gd = GameDumper(season)
+        gd.dumpData()
+        pd = PlayerDumper(season)
+        pd.dumpData()
         
         #transfer data to MySQL, updating games and player data in version2 under most recent season
         sqlWriter = MySQL_Writer("games", connection, season)
@@ -91,10 +91,8 @@ def lambda_handler(event, context):
         }
 
 if __name__ == "__main__":
-    print("HI")
-    # test = DataDumper("names", 2023)
-    # test.dumpData()
-    # test.setType("games")
-    # test.dumpData()
-    # test.setType("players")
-    # test.dumpData()
+    test = MySQL_Writer("version2", 2023)
+    test.normalizeOPI()
+    # columns = ['hi', 'im', 'fat']
+    # update_clause = ', '.join([f"{col} = VALUES({col})" for col in columns])
+    # print(update_clause)
