@@ -91,8 +91,7 @@ def lambda_handler(event, context):
         }
 
 if __name__ == "__main__":
-    test = MySQL_Writer("version2", 2023)
-    test.normalizeOPI()
+    dumpJson(getData("/games?id=2379"), 'test.json')
     # columns = ['hi', 'im', 'fat']
     # update_clause = ', '.join([f"{col} = VALUES({col})" for col in columns])
     # print(update_clause)
