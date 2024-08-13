@@ -1,64 +1,25 @@
-import boto3
-import pymysql
-from botocore.exceptions import ClientError
-
-def get_secret():
-    secret_name = "Mysql/password"
-    region_name = "us-west-1"
-
-    # Create a Secrets Manager client
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
-
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
-        return get_secret_value_response['SecretString'][32:46]
-    except ClientError as e:
-        print(f"Error retrieving password: {e}")
-        raise
+import boto3, pymysql, os, time
+from fuzzywuzzy import fuzz
 
 #uses levenshtein distance to get closest word
 #returns array [name, match score (edit distance)]
 def getClosestName(name):
-    minDistance = float("inf")
+    if name in names:
+        return name
+    currMatch = float("-inf")
     res = ""
     for n in names.splitlines():
-        
-        #edit distance on leetcode
-        def levenshtein(n, name):
-            cache = [[float("inf")] * (len(name) + 1) for i in range(len(n) + 1)]
-        
-            for j in range(len(name) + 1):
-                cache[len(n)][j] = len(name) - j
-            for i in range(len(n) + 1):
-                cache[i][len(name)] = len(n) - i
-                
-            for i in range(len(n) - 1, -1, -1):
-                for j in range(len(name) - 1, -1, -1):
-                    if n[i] == name[j]:
-                        cache[i][j] = cache[i+1][j+1]
-                    else:
-                        cache[i][j] = 1 + min(cache[i][j+1], cache[i+1][j], cache[i+1][j+1])
-            
-            return cache[0][0]
-
-        currDist = levenshtein(n, name)
-        if currDist < minDistance:
-            minDistance = currDist
+        match = fuzz.ratio(n, name)
+        if match > currMatch:
+            currMatch = match
             res = n
 
-    return [res, minDistance]
-
-pw = get_secret()
+    return res
+    
 connection = pymysql.connect(
     host='yba-database.c30igyqguxod.us-west-1.rds.amazonaws.com', 
     user='admin', 
-    password=pw, 
+    password=os.getenv('SECRETS_MANAGER_CONTRASENA'), 
     database='yba'
 )
 cursor = connection.cursor()
@@ -72,15 +33,12 @@ class QueryComputer:
         self.agg = agg
         self.stat = event['queryStringParameters'].get('stat', None)
         self.name = event['queryStringParameters'].get('name', None)
-        self.editDistance = None
+        self.editDistanceTime = 0
         if self.name is not None:
-            cursor.execute("SELECT COUNT(*)" + table + f" WHERE v.name = '{self.name}'")
-            if cursor.fetchone()[0] == 0:
-                #fuzzy matching in case user input name is not in database
-                fuz = getClosestName(self.name)
-                self.name = fuz[0]
-                self.editDistance = fuz[1]
-        self.seasons = event['queryStringParameters'].get('seasons', None)
+            startTime = time.time()
+            self.name = getClosestName(self.name)
+            self.editDistanceTime = time.time() - startTime
+        self.season = event['multiValueQueryStringParameters'].get('season', None)
         self.stage = event['queryStringParameters'].get('stage', None)
         self.filters = event['queryStringParameters'].get('filter', None)
         self.limit = event['queryStringParameters'].get('limit', None)
@@ -88,11 +46,11 @@ class QueryComputer:
         self.order = event['queryStringParameters'].get('order', None)
         self.sToQ = {'3pct': '3p', 'fgpct': 'fg', 'ftpct': 'ft'}
     
+    def getEditDistanceTime(self):
+        return self.editDistanceTime
+    
     def getName(self):
         return self.name
-
-    def getEditDistance(self):
-        return self.editDistance
 
     def compute_filterQuery(self, rank, filters):
         query = "HAVING" if rank else ""
@@ -135,14 +93,13 @@ class QueryComputer:
     
     def compute_Query(self):
         query = ""
-        if self.seasons:
-            #if seasons is just one season, e.g. 2023
-            if len(self.seasons) == 4:
-                query += f" AND v.season={self.seasons}"
-            #if seasons spans multiple seasons, e.g. 2015-2019
-            else:
-                seasonSplit = self.seasons.split('-')
-                query += f" AND v.season BETWEEN " + seasonSplit[0] + " AND " + seasonSplit[1]
+        if self.season:
+            query += " AND ("
+            for szn in self.season:
+                query += f"v.season={szn}"
+                query += " OR "
+            query = query[:len(query) - 4]
+            query += ")"
         if self.stage:
             query += f" AND g.stage={self.stage}"
 
@@ -197,10 +154,14 @@ class StatComputer(QueryComputer):
     
     def compute_Query(self):
         query = ""
-        if self.stat != '3pct' and self.stat != 'fgpct' and self.stat != 'ftpct':
-            query = f"SELECT {self.agg}({self.stat})" + table + f" WHERE v.name='{self.name}'"
+        if self.stat == 'games':
+            query = "SELECT COUNT(*)" + table;
+        elif self.stat != '3pct' and self.stat != 'fgpct' and self.stat != 'ftpct':
+            query = f"SELECT {self.agg}({self.stat})" + table;
         else:
-            query = f"SELECT {self.agg}({self.sToQ[self.stat]}m / {self.sToQ[self.stat]}a)" + table + f" WHERE v.name='{self.name}'"
+            query = f"SELECT {self.agg}({self.sToQ[self.stat]}m / {self.sToQ[self.stat]}a)" + table;
+        if self.name:
+            query += f" WHERE v.name='{self.name}'"
         
         query += super().compute_Query()
         if self.filters:

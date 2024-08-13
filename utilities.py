@@ -42,7 +42,6 @@ class MySQL_Writer:
         allValues = []
         for game in data:
             values = [game.get(col, None) for col in self.columns]
-            #if OPI is None then don't include it
             if values[18] != None:
                 values[0] = '"' + values[0] + '"'
                 values[3] = '"' + values[3] + '"'
@@ -66,6 +65,7 @@ class MySQL_Writer:
         if self.table == "version2":
             #gets rid of former nba players from database whose games are in different league
             cursor.execute(f"DELETE FROM version2 WHERE team=\"\" AND season={self.season}")
+
             cursor.execute(f"SELECT MAX(OPI) FROM version2 WHERE season={self.season}")
             max_OPI = cursor.fetchone()[0]
             cursor.execute(f"SELECT MIN(OPI) FROM version2 WHERE season={self.season}")

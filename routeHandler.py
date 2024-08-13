@@ -10,7 +10,7 @@ def lambda_handler(event, context):
         resource = path[1]
         query = ""
         stat = event['queryStringParameters'].get('stat', None)
-        aggregate = event['queryStringParameters'].get('agg', None)
+        aggregate = "sum" if stat == "games" else event['queryStringParameters'].get('agg', None)
         
         if resource == 'stats':
             test = StatComputer(aggregate, event)
@@ -21,7 +21,7 @@ def lambda_handler(event, context):
             if name:
                 res_body['name'] = name
                 res_body['edit distance'] = test.getEditDistance()
-            res_body[f'{aggregate}_{stat}'] = float(result[0])
+            res_body[f'{aggregate}_{stat}'] = float(result[0]) if result[0]  else 0
             res_body['query'] = query
         
         elif resource == 'rank':
@@ -35,7 +35,7 @@ def lambda_handler(event, context):
             cur = {}
             for row in result:
                 cur['name'] = row[0]
-                cur[f'{aggregate}_{stat}'] = float(row[1])
+                cur[f'{aggregate}_{stat}'] = float(row[1]) if row[1] else 0
                 res.append(cur)
                 cur = {}
 
@@ -67,10 +67,8 @@ def lambda_handler(event, context):
     
     http_res['headers'] = {}
     http_res['headers']['Content-Type'] = "application/json"
+    http_res['headers']['Access-Control-Allow-Origin'] = "*"
     http_res['body'] = json.dumps(res_body, indent=4)
-
-    return res_body['query']
-
-if __name__ == "__main__":
-    event = {"resource":"/rank","path":"/rank","httpMethod":"GET","headers":None,"multiValueHeaders":None,"queryStringParameters":{"agg":"avg","stat":"3pct","seasons":"2023","limit":"10","order":"desc"},"multiValueQueryStringParameters":{"agg":["avg"],"stat":["3pct"],"seasons":["2023"],"limit":["10"],"order":["desc"]}}
-    print(lambda_handler(event, "K"))
+    
+    # return http_res
+    return http_res
