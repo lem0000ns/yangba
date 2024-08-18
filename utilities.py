@@ -42,12 +42,15 @@ class MySQL_Writer:
         allValues = []
         for game in data:
             values = [game.get(col, None) for col in self.columns]
-            if values[18] != None:
+            if self.table == "version2" and values[18] != None:
                 values[0] = '"' + values[0] + '"'
                 values[3] = '"' + values[3] + '"'
                 allValues.append('(' + ', '.join(map(str, values)) + ')')
-            else:
-                print(values)
+            elif self.table =="games" and values[4] != None:
+                values[2] = '"' + values[2] + '"'
+                values[3] = '"' + values[3] + '"'
+                values[5] = '"' + values[5] + '"'
+                allValues.append('(' + ', '.join(map(str, values)) + ')')
         insert_query += ', '.join(allValues)
         insert_query += " ON DUPLICATE KEY UPDATE "
         update_clause = ', '.join([f"{col} = VALUES({col})" for col in self.columns])
@@ -93,6 +96,8 @@ class DataDumper:
 
         cursor.execute(f" SELECT home, homePts, away, awayPts FROM games WHERE gameID = {gameID}")
         result = cursor.fetchone()
+        if (gameID == 10973 or gameID == 10978):
+            print(result)
         if result is None or result[0] == "":
             playerStats["OPI"] = None
         else:
@@ -188,6 +193,8 @@ class GameDumper(DataDumper):
         for game in data:
             currGame = {}
             if (game["league"] == "standard"):
+                if (game['id'] == 10978):
+                    game['id'] = 10973
                 currGame['gameID'] = game['id']
                 currGame['stage'] = game['stage']
                 gameTime = game['date']['start']

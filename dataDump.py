@@ -1,5 +1,5 @@
 import json, requests, pymysql, os
-from utilities import MySQL_Writer, DataDumper
+from utilities import MySQL_Writer, DataDumper, NameDumper, PlayerDumper, GameDumper
 
 #configuration variables
 url = "https://api-nba-v1.p.rapidapi.com"
@@ -43,12 +43,12 @@ def lambda_handler(event, context):
         #gets most recent season
         season = getData("/seasons")['response'][-1]
 
-        dd = DataDumper("names", season)
+        dd = NameDumper(season)
         dd.dumpData()
-        dd.setType("games")
-        dd.dumpData()
-        dd.setType("players")
-        dd.dumpData()
+        gd = GameDumper(season)
+        gd.dumpData()
+        pd = PlayerDumper(season)
+        pd.dumpData()
         
         #transfer data to MySQL, updating games and player data in version2 under most recent season
         sqlWriter = MySQL_Writer("games", connection, season)
@@ -70,3 +70,24 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': f'Error uploading file: {e}'
         }
+    
+if __name__ == "__main__":
+    #gets most recent season
+    season = 2021
+
+    # dd = NameDumper(season)
+    # dd.dumpData()
+    # gd = GameDumper(season)
+    # gd.dumpData()
+    # pd = PlayerDumper(season)
+    # pd.dumpData()
+    
+    #transfer data to MySQL, updating games and player data in version2 under most recent season
+    sqlWriter = MySQL_Writer("games", season)
+    sqlWriter.transferData()
+    print("finished games")
+    statWriter = MySQL_Writer("version2", season)
+    statWriter.transferData()
+    print("finished version2")
+    statWriter.normalizeOPI()
+    print("finished normalizing")

@@ -137,7 +137,7 @@ class GameComputer(QueryComputer):
     def compute_Query(self):
         query = "SELECT v.name, v.playerID, g.gameID, g.stage, g.gameDate, v.team, v.season, v.points, v.min, v.fgm, v.fga, v.ftm, v.fta, v.3pm, v.3pa, v.reb, v.ast, v.steals, v.blocks, v.turnovers, v.OPI" + table
         if self.name:
-            query += f" WHERE v.name='{self.name}'"
+            query += f" WHERE v.name=\"{self.name}\""
         
         query += super().compute_Query()
         if self.filters:
@@ -159,14 +159,15 @@ class StatComputer(QueryComputer):
         elif self.stat != '3pct' and self.stat != 'fgpct' and self.stat != 'ftpct':
             query = f"SELECT {self.agg}({self.stat})" + table;
         else:
-            query = f"SELECT {self.agg}({self.sToQ[self.stat]}m / {self.sToQ[self.stat]}a)" + table;
+            if self.agg == "avg":
+                query = f"SELECT sum({self.sToQ[self.stat]}m) / sum({self.sToQ[self.stat]}a)" + table;
+            elif self.agg != "sum":
+                query = f"SELECT {self.agg}({self.sToQ[self.stat]}m / {self.sToQ[self.stat]}a)" + table;
         if self.name:
-            query += f" WHERE v.name='{self.name}'"
+            query += f" WHERE v.name=\"{self.name}\""
         
         query += super().compute_Query()
         if self.filters:
             query += super().compute_filterQuery(False, self.filters)
-        if self.team:
-            query += f" AND team='{self.team}'"
         
         return query
