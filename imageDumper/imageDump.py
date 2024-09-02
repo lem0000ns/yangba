@@ -35,7 +35,7 @@ def download_image(url, save_path):
     if response.status_code == 200:
         #Save in S3
         s3_client.put_object(
-            Key=f"playerImages/{save_path}",
+            Key=f"allPlayerImages/{save_path}",
             Bucket=bucket_name,
             Body=response.content
         )
@@ -57,7 +57,8 @@ def scrape_images(player_links):
             image = soup.findAll('img', {'style': 'border: 1px solid #000; float: left; margin-right: 15px; margin-top:5px;'})
             src = image[0]['src']
             x = src.split('/')[-1].split('_')
-            filename = f"{x[1]}-{x[0]}.jpg"  # save under player name
+
+            filename = f"{x[1].lower()}{x[0].lower()}.jpg"  # save under player name
 
             download_image(base + src, filename)  # or store the image however you want
         else:

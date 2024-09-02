@@ -32,7 +32,7 @@ def compute_Percentile(name, stat, season, agg, filters):
     try:
         cursor.execute(query)
         result = cursor.fetchone()[0]
-        return round(1 - result, 5);
+        return round(1 - result, 5)
     except Exception as e:
         print(str(e))
         return 0

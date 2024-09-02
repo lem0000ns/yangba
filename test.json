@@ -1,94 +1,255 @@
 {
-    "get": "games/",
-    "parameters": {
-        "id": "10973"
+    "Frank Kaminsky": {
+        "playerID": "290",
+        "Name": "Frank Kaminsky",
+        "Position": "Center / Power forward",
+        "Born": " (1993-04-04) April 4, 1993 (age\u00a031)Winfield, Illinois, U.S.",
+        "Listed height": "7\u00a0ft 0\u00a0in (2.13\u00a0m)",
+        "Listed weight": "240\u00a0lb (109\u00a0kg)",
+        "High school": "Benet Academy (Lisle, Illinois)",
+        "College": "Wisconsin (2011\u20132015)",
+        "NBA draft": "2015: 1st  round, 9th overall pick",
+        "Playing career": "2015\u2013present",
+        "Teams": "[{\"2015\\u20132019\": \"Charlotte Hornets\"}, {\"2019\\u20132022\": \"Phoenix Suns\"}, {\"2022\\u20132023\": \"Atlanta Hawks\"}, {\"2023\": \"Houston Rockets\"}, {\"2023\\u20132024\": \"Partizan\"}, {\"2024-present\": \"Paris Basketball\"}]",
+        "Awards": "\nNational college player of the year (2015)\nConsensus first-team All-American (2015)\nKareem Abdul-Jabbar Award (2015)\nBig Ten Player of the Year (2015)\n2\u00d7 First-team All-Big Ten (2014, 2015)\nBig Ten tournament MOP (2015)\nNo. 44 jersey retired by Wisconsin Badgers\n",
+        "Intro": "Francis Stanley Kaminsky III (born April 4, 1993) is an American professional basketball player who plays for Paris Basketball of the LNB \u00c9lite, and the EuroLeague. He played college basketball for the Wisconsin Badgers.\nDuring his college basketball career, Kaminsky set the Wisconsin single-game record for points (43)."
     },
-    "errors": [],
-    "results": 1,
-    "response": [
-        {
-            "id": 10973,
-            "league": "standard",
-            "season": 2021,
-            "date": {
-                "start": "2022-06-11T01:00:00.000Z",
-                "end": "2022-06-11T03:29:00.000Z",
-                "duration": "2:21"
-            },
-            "stage": 4,
-            "status": {
-                "clock": null,
-                "halftime": false,
-                "short": 3,
-                "long": "Finished"
-            },
-            "periods": {
-                "current": 4,
-                "total": 4,
-                "endOfPeriod": false
-            },
-            "arena": {
-                "name": "TD Garden",
-                "city": "Boston",
-                "state": "MA",
-                "country": "USA"
-            },
-            "teams": {
-                "visitors": {
-                    "id": 11,
-                    "name": "Golden State Warriors",
-                    "nickname": "Warriors",
-                    "code": "GSW",
-                    "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/de/Warriors_de_Golden_State_logo.svg/1200px-Warriors_de_Golden_State_logo.svg.png"
-                },
-                "home": {
-                    "id": 2,
-                    "name": "Boston Celtics",
-                    "nickname": "Celtics",
-                    "code": "BOS",
-                    "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/6/65/Celtics_de_Boston_logo.svg/1024px-Celtics_de_Boston_logo.svg.png"
-                }
-            },
-            "scores": {
-                "visitors": {
-                    "win": 53,
-                    "loss": 29,
-                    "series": {
-                        "win": 1,
-                        "loss": 1
-                    },
-                    "linescore": [
-                        "27",
-                        "22",
-                        "30",
-                        "28"
-                    ],
-                    "points": 107
-                },
-                "home": {
-                    "win": 51,
-                    "loss": 31,
-                    "series": {
-                        "win": 1,
-                        "loss": 1
-                    },
-                    "linescore": [
-                        "28",
-                        "26",
-                        "24",
-                        "19"
-                    ],
-                    "points": 97
-                }
-            },
-            "officials": [
-                "James Capers",
-                "Eric Lewis",
-                "Kane Fitzgerald"
-            ],
-            "timesTied": 10,
-            "leadChanges": 11,
-            "nugget": null
-        }
-    ]
+    "Chasson Randle": {
+        "playerID": "580",
+        "Name": "Chasson Randle",
+        "Position": "Point guard / Shooting guard",
+        "Born": " (1993-02-05) February 5, 1993 (age\u00a031)Rock Island, Illinois, U.S.",
+        "Listed height": "6\u00a0ft 2\u00a0in (1.88\u00a0m)",
+        "Listed weight": "185\u00a0lb (84\u00a0kg)",
+        "High school": "Rock Island (Rock Island, Illinois)",
+        "College": "Stanford (2011\u20132015)",
+        "NBA draft": "2015: undrafted",
+        "Playing career": "2015\u2013present",
+        "Teams": "[{\"2015\\u20132016\": \"\\u010cEZ Nymburk\"}, {\"2016\\u20132017\": \"Westchester Knicks\"}, {\"2017\": \"Philadelphia 76ers\"}, {\"2017\": \"\\u2192Delaware 87ers\"}, {\"2017\": \"New York Knicks\"}, {\"2017\\u20132018\": \"Real Madrid\"}, {\"2018\": \"Capital City Go-Go\"}, {\"2018\\u20132019\": \"Washington Wizards\"}, {\"2019\\u20132020\": \"Tianjin Pioneers\"}, {\"2020\": \"Golden State Warriors\"}, {\"2021\": \"Oklahoma City Blue\"}, {\"2021\": \"Orlando Magic\"}, {\"2021\": \"\\u2192Lakeland Magic\"}, {\"2021\\u20132022\": \"New Zealand Breakers\"}, {\"2022\\u20132023\": \"Grand Rapids Gold\"}, {\"2023\": \"Oklahoma City Blue\"}, {\"2023\": \"Leones de Ponce\"}, {\"2023\\u20132024\": \"AEK Athens\"}]",
+        "Awards": "\nNBA G League champion (2021)\nEuroLeague champion (2018)\nLiga ACB champion (2018)\nNBL champion (2016)\n2\u00d7 First-team All-Pac-12 (2014, 2015)\nFirst-team Academic All-American (2015)\nNIT Most Outstanding Player (2015)\nIllinois Co-Mr. Basketball (2011)\n",
+        "Intro": "Chasson Randle (born February 5, 1993) is an American professional basketball player who last played for AEK Athens of the Greek Basket League. He played college basketball for the Stanford Cardinal. As a senior in 2014\u201315, he was considered one of the top point guards in the country."
+    },
+    "Jaylin Williams": {
+        "playerID": "3505",
+        "Name": "Jaylin Williams",
+        "Position": "Center / power forward",
+        "Born": " (2002-06-29) June 29, 2002 (age\u00a022)Fort Smith, Arkansas, U.S.",
+        "Listed height": "6\u00a0ft 9\u00a0in (2.06\u00a0m)",
+        "Listed weight": "240\u00a0lb (109\u00a0kg)",
+        "High school": "Northside (Fort Smith, Arkansas)",
+        "College": "Arkansas (2020\u20132022)",
+        "NBA draft": "2022: 2nd  round, 34th overall pick",
+        "Playing career": "2022\u2013present",
+        "Teams": "[{\"2022\\u2013present\": \"Oklahoma City Thunder\"}, {\"2022\": \"\\u2192Oklahoma City Blue\"}]",
+        "Awards": "\nFirst-team All-SEC \u2013 Coaches (2022)\nSecond-team All-SEC \u2013 AP (2022)\nSEC All-Defensive Team (2022)\nMr. Basketball of Arkansas (2020)\n",
+        "Intro": "Jaylin Michael Williams (born June 29, 2002), nicknamed J-Will, is an American professional basketball player for the Oklahoma City Thunder of the National Basketball Association (NBA). He played college basketball for the Arkansas Razorbacks. He was selected by the Thunder in the second round of the 2022 NBA draft."
+    },
+    "Julian Champagnie": {
+        "playerID": "3425",
+        "Name": "Julian Champagnie",
+        "Position": "Shooting guard / small forward",
+        "Born": " (2001-06-29) June 29, 2001 (age\u00a023)Staten Island, New York, U.S.",
+        "Listed height": "6\u00a0ft 7\u00a0in (2.01\u00a0m)",
+        "Listed weight": "218\u00a0lb (99\u00a0kg)",
+        "High school": "Bishop Loughlin(Brooklyn, New York)",
+        "College": "St. John's (2019\u20132022)",
+        "NBA draft": "2022: undrafted",
+        "Playing career": "2022\u2013present",
+        "Teams": "[{\"2022\\u20132023\": \"Philadelphia 76ers\"}, {\"2022\\u20132023\": \"\\u2192Delaware Blue Coats\"}, {\"2023\\u2013present\": \"San Antonio Spurs\"}, {\"2023\": \"\\u2192Austin Spurs\"}]",
+        "Awards": "\n2\u00d7 First-team All-Big East (2021, 2022)\nBig East Co-Most Improved Player (2021)\nBig East All-Freshman Team (2020)\n",
+        "Intro": "Julian Kymani Champagnie (born June 29, 2001) is an American professional basketball player for the San Antonio Spurs of the National Basketball Association (NBA). He played college basketball for the St. John's Red Storm, twice earning all-conference honors in the Big East."
+    },
+    "Marreese Speights": {
+        "playerID": "493",
+        "Name": "Marreese Speights",
+        "Position": "Center / power forward",
+        "Born": " (1987-08-04) August 4, 1987 (age\u00a037)St. Petersburg, Florida, U.S.",
+        "Listed height": "6\u00a0ft 10\u00a0in (2.08\u00a0m)",
+        "Listed weight": "256\u00a0lb (116\u00a0kg)",
+        "High school": "\nGibbs (St. Petersburg, Florida)\nAdmiral Farragut Academy(St. Petersburg, Florida)\nHargrave Military (Chatham, Virginia)\n",
+        "College": "Florida (2006\u20132008)",
+        "NBA draft": "2008: 1st  round, 16th overall pick",
+        "Playing career": "2008\u20132021",
+        "Number": "16, 5, 15",
+        "Coaching career": "2023\u2013present",
+        "Teams": "[{\"2008\\u20132012\": \"Philadelphia 76ers\"}, {\"2012\\u20132013\": \"Memphis Grizzlies\"}, {\"2013\": \"Cleveland Cavaliers\"}, {\"2013\\u20132016\": \"Golden State Warriors\"}, {\"2016\\u20132017\": \"Los Angeles Clippers\"}, {\"2017\\u20132018\": \"Orlando Magic\"}, {\"2018\\u20132021\": \"Guangzhou Long-Lions\"}]",
+        "2023\u2013present": "Georgia Southern (assistant)",
+        "Awards": "\nNBA champion (2015)\nNCAA champion (2007)\n",
+        "Intro": "Marreese Akeem Speights (born August 4, 1987) is an American former professional basketball player who last played for the Guangzhou Loong Lions of the Chinese Basketball Association (CBA). He played college basketball for the Florida Gators, where he was a freshman member of their NCAA national championship team in 2007. The Philadelphia 76ers selected him with the 16th overall pick in the 2008 NBA draft."
+    },
+    "Duncan Robinson": {
+        "playerID": "1018",
+        "Name": "Duncan Robinson",
+        "Position": "Small forward / shooting guard",
+        "Born": " (1994-04-22) April 22, 1994 (age\u00a030)York, Maine, U.S.",
+        "Listed height": "6\u00a0ft 7\u00a0in (2.01\u00a0m)",
+        "Listed weight": "215\u00a0lb (98\u00a0kg)",
+        "High school": "\nThe Governor's Academy(Byfield, Massachusetts)\nPhillips Exeter Academy(Exeter, New Hampshire)\n",
+        "College": "\nWilliams (2013\u20132014)\nMichigan (2015\u20132018)\n",
+        "NBA draft": "2018: undrafted",
+        "Playing career": "2018\u2013present",
+        "Teams": "[{\"2018\\u2013present\": \"Miami Heat\"}, {\"2018\\u20132019\": \"\\u2192Sioux Falls Skyforce\"}]",
+        "Awards": "\nThird Team All-NBA G League (2019)\nBig Ten Sixth Man of the Year (2018)\n",
+        "Intro": "Duncan McBryde Robinson (born April 22, 1994) is an American professional basketball player for the Miami Heat  of the National Basketball Association (NBA). He played college basketball for the NCAA Division III Williams College Ephs and then the NCAA Division I Michigan Wolverines. He transferred to Michigan after leading Williams College to the 2014 NCAA Division III men's basketball tournament championship game."
+    },
+    "Gabe Vincent": {
+        "playerID": "1775",
+        "Name": "Gabe Vincent",
+        "Position": "Point guard",
+        "Born": " (1996-06-14) June 14, 1996 (age\u00a028)Modesto, California, U.S.",
+        "Nationality": "American / Nigerian",
+        "Listed height": "6\u00a0ft 2\u00a0in (1.88\u00a0m)",
+        "Listed weight": "200\u00a0lb (91\u00a0kg)",
+        "High school": "St. Mary's(Stockton, California)",
+        "College": "UC Santa Barbara (2014\u20132018)",
+        "NBA draft": "2018: undrafted",
+        "Playing career": "2018\u2013present",
+        "Teams": "[{\"2018\\u20132020\": \"Stockton Kings\"}, {\"2020\\u20132023\": \"Miami Heat\"}, {\"2020\\u20132021\": \"\\u2192Sioux Falls Skyforce\"}, {\"2023\\u2013present\": \"Los Angeles Lakers\"}]",
+        "Awards": "\nNBA Cup champion (2023)\nNBA G League Most Improved Player (2020)\n",
+        "Intro": "Gabriel Nnamdi Vincent (born June 14, 1996) is a Nigerian-American professional basketball player for the Los Angeles Lakers of the National Basketball Association (NBA) and the Nigerian national basketball team. He played college basketball for the UC Santa Barbara Gauchos. Undrafted out of college, Vincent signed with the Stockton Kings of the NBA G League before joining the Miami Heat on a two-way contract."
+    },
+    "Hollis Thompson": {
+        "playerID": "512",
+        "Name": "Hollis Thompson",
+        "Born": " (1991-04-03) April 3, 1991 (age\u00a033)Pasadena, California",
+        "Nationality": "American",
+        "Listed height": "6\u00a0ft 7\u00a0in (2.01\u00a0m)",
+        "Listed weight": "190\u00a0lb (86\u00a0kg)",
+        "High school": "Loyola (Los Angeles, California)",
+        "College": "Georgetown (2009\u20132012)",
+        "NBA draft": "2012: undrafted",
+        "Playing career": "2012\u20132020",
+        "Position": "Shooting guard / small forward",
+        "Teams": "[{\"2012\\u20132013\": \"Tulsa 66ers\"}, {\"2013\\u20132017\": \"Philadelphia 76ers\"}, {\"2017\": \"Austin Spurs\"}, {\"2017\": \"New Orleans Pelicans\"}, {\"2017\\u20132018\": \"Olympiacos\"}, {\"2018\\u20132019\": \"Northern Arizona Suns\"}, {\"2019\": \"Crailsheim Merlins\"}, {\"2019\\u20132020\": \"Stockton Kings\"}]",
+        "Intro": "Keith Hollis Thompson II (born April 3, 1991) is an American former professional basketball player. He played college basketball for Georgetown University. He also played for the Philadelphia 76ers and New Orleans Pelicans\n\n\n== High school career ==\nThompson attended Loyola High School in Los Angeles, California."
+    },
+    "Phil Pressey": {
+        "playerID": "701",
+        "Name": "Phil Pressey",
+        "Position": "Point guard",
+        "Born": " (1991-02-17) February 17, 1991 (age\u00a033)Dallas, Texas, U.S.",
+        "Nationality": "American",
+        "Listed height": "5\u00a0ft 11\u00a0in (1.80\u00a0m)",
+        "Listed weight": "177\u00a0lb (80\u00a0kg)",
+        "High school": "\nCushing Academy(Ashburnham, Massachusetts)\nEpiscopal School of Dallas(Dallas, Texas)\n",
+        "College": "Missouri (2010\u20132013)",
+        "NBA draft": "2013: undrafted",
+        "Playing career": "2013\u20132022",
+        "Number": "26, 25, 11, 8, 4",
+        "Coaching career": "2022\u2013present",
+        "Teams": "[{\"2013\\u20132015\": \"Boston Celtics\"}, {\"2015\": \"\\u2192Maine Red Claws\"}, {\"2015\": \"Philadelphia 76ers\"}, {\"2015\\u20132016\": \"Idaho Stampede\"}, {\"2016\": \"Phoenix Suns\"}, {\"2016\\u20132017\": \"Santa Cruz Warriors\"}, {\"2017\\u20132018\": \"FC Barcelona\"}, {\"2018\\u20132019\": \"Be\\u015fikta\\u015f\"}, {\"2019\\u20132020\": \"Estudiantes\"}, {\"2020\\u20132022\": \"EWE Baskets Oldenburg\"}]",
+        "2022\u20132023": "Missouri (graduate assistant)",
+        "2023\u2013present": "Boston Celtics (assistant)",
+        "Awards": "\nNBA Champion 2024 (assistant coach)\nCopa del Rey champion (2018)\nFirst-team All-SEC (2013)\nThird-team All-Big 12 (2012)\nAP Honorable mention All-American (2013)\n",
+        "Intro": "Phillip Michael Pressey (born February 17, 1991) is an American professional basketball coach and former player who played at the point guard position. He currently is an assistant coach for Boston Celtics of the National Basketball Association. His prior professional teams were the Boston Celtics, Philadelphia 76ers and Phoenix Suns of the National Basketball Association (NBA), and the Maine Red Claws and Idaho Stampede of the NBA Development League."
+    },
+    "Tyrone Wallace": {
+        "playerID": "893",
+        "Name": "Tyrone Wallace",
+        "Position": "Point guard / shooting guard",
+        "Born": " (1994-06-10) June 10, 1994 (age\u00a030)Bakersfield, California",
+        "Nationality": "American",
+        "Listed height": "6\u00a0ft 5\u00a0in (1.96\u00a0m)",
+        "Listed weight": "189\u00a0lb (86\u00a0kg)",
+        "High school": "Bakersfield (Bakersfield, California)",
+        "College": "California (2012\u20132016)",
+        "NBA draft": "2016: 2nd  round, 60th overall pick",
+        "Playing career": "2016\u2013present",
+        "Teams": "[{\"2016\\u20132017\": \"Salt Lake City Stars\"}, {\"2017\\u20132018\": \"Agua Caliente Clippers\"}, {\"2018\\u20132019\": \"Los Angeles Clippers\"}, {\"2018\\u20132019\": \"\\u2192Agua Caliente Clippers\"}, {\"2019\": \"Atlanta Hawks\"}, {\"2019\": \"\\u2192College Park Skyhawks\"}, {\"2020\\u20132021\": \"Agua Caliente Clippers\"}, {\"2022\": \"Long Island Nets\"}, {\"2022\": \"New Orleans Pelicans\"}, {\"2022\\u20132023\": \"Paris Basketball\"}, {\"2023\\u20132024\": \"T\\u00fcrk Telekom\"}, {\"2024\\u2013present\": \"\\u017dalgiris\"}]",
+        "Awards": "\nFirst-team All-Pac-12 (2015)\n",
+        "Intro": "Tyrone Tyrin Wallace (born June 10, 1994) is an American professional basketball player for \u017dalgiris Kaunas of the Lithuanian Basketball League (LKL) and the EuroLeague. He played college basketball for the California Golden Bears. He was selected with the 60th pick of the 2016 NBA draft."
+    },
+    "Nemanja Bjelica": {
+        "playerID": "55",
+        "Name": "Nemanja Bjelica",
+        "Position": "Power forward / small forward",
+        "Born": " (1988-05-09) 9 May 1988 (age\u00a036)Belgrade, SR Serbia, SFR Yugoslavia",
+        "Nationality": "Serbian",
+        "Listed height": "6\u00a0ft 10\u00a0in (2.08\u00a0m)",
+        "Listed weight": "234\u00a0lb (106\u00a0kg)",
+        "NBA draft": "2010: 2nd  round, 35th overall pick",
+        "Playing career": "2007\u20132023",
+        "Number": "8, 44, 70, 88",
+        "Teams": "[{\"2007\\u20132008\": \"Traiskirchen Lions\"}, {\"2008\\u20132010\": \"Crvena zvezda\"}, {\"2010\\u20132013\": \"Baskonia\"}, {\"2013\\u20132015\": \"Fenerbah\\u00e7e\"}, {\"2015\\u20132018\": \"Minnesota Timberwolves\"}, {\"2018\\u20132021\": \"Sacramento Kings\"}, {\"2021\": \"Miami Heat\"}, {\"2021\\u20132022\": \"Golden State Warriors\"}, {\"2022\\u20132023\": \"Fenerbah\\u00e7e\"}, {\"2023\": \"Crvena zvezda\"}]",
+        "Awards": "\nNBA champion (2022)\nEuroLeague MVP (2015)\nAll-EuroLeague First Team (2015)\nSerbian Player of the Year (2015)\nTurkish League champion (2014)\nTurkish Presidential Cup winner (2013)\nAll-Serbian League First Team (2010)\n2\u00d7 Zadar Basketball Tournament winner (2014, 2015)\n",
+        "Intro": "Nemanja Bjelica (Serbian Cyrillic: \u041d\u0435\u043c\u0430\u045a\u0430 \u0411\u0458\u0435\u043b\u0438\u0446\u0430, pronounced [n\u011bma\u0272a bj\u011blitsa]; born 9 May 1988) is a Serbian former professional basketball player who is the head of basketball operations of Bah\u00e7e\u015fehir Koleji. He represented the senior Serbian national team in international competition. Bjelica was an All-Euroleague First Team selection as well as the Euroleague MVP in 2015."
+    },
+    "Rayshaun Hammonds": {
+        "playerID": "2596",
+        "Name": "Rayshaun Hammonds",
+        "Position": "Power forward/Center",
+        "Born": " (1998-11-10) November 10, 1998 (age\u00a025)Augusta, Georgia",
+        "Nationality": "American",
+        "Listed height": "6\u00a0ft 9\u00a0in (2.06\u00a0m)",
+        "Listed weight": "235\u00a0lb (107\u00a0kg)",
+        "High school": "Norcross(Norcross, Georgia)",
+        "College": "Georgia (2017\u20132020)",
+        "NBA draft": "2020: undrafted",
+        "Playing career": "2021\u2013present",
+        "Teams": "[{\"2021\": \"Fort Wayne Mad Ants\"}, {\"2021\\u20132022\": \"VEF R\\u012bga\"}, {\"2022\\u20132023\": \"BG G\\u00f6ttingen\"}, {\"2023\\u20132024\": \"Avtodor\"}, {\"2024\\u2013present\": \"Santeros de Aguada\"}]",
+        "Awards": "\nLatvian-Estonian Basketball League Champion (2022)\nLatvian Cup (2022)\nLBL champion (2022)\n",
+        "Intro": "Rayshaun Hammonds (born November 10, 1998) is an American professional basketball player for the Santeros de Aguada of the Baloncesto Superior Nacional (BSN). He played college basketball for the Georgia Bulldogs.\n\n\n== High school career ==\nHammonds attended Norcross High School."
+    },
+    "Dennis Smith Jr.": {
+        "playerID": "876",
+        "Name": "Dennis Smith Jr.",
+        "Position": "Point guard",
+        "Born": " (1997-11-25) November 25, 1997 (age\u00a026)Fayetteville, North Carolina, U.S.",
+        "Listed height": "6\u00a0ft 3\u00a0in (1.91\u00a0m)",
+        "Listed weight": "205\u00a0lb (93\u00a0kg)",
+        "High school": "Trinity Christian School(Fayetteville, North Carolina)",
+        "College": "NC State (2016\u20132017)",
+        "NBA draft": "2017: 1st  round, 9th overall pick",
+        "Playing career": "2017\u2013present",
+        "Teams": "[{\"2017\\u20132019\": \"Dallas Mavericks\"}, {\"2019\\u20132021\": \"New York Knicks\"}, {\"2021\": \"Detroit Pistons\"}, {\"2021\\u20132022\": \"Portland Trail Blazers\"}, {\"2022\\u20132023\": \"Charlotte Hornets\"}, {\"2023\\u20132024\": \"Brooklyn Nets\"}]",
+        "Awards": "\nNBA All-Rookie Second Team (2018)\nACC Rookie of the Year (2017)\nSecond-team All-ACC (2017)\nACC All-Freshman team (2017)\n",
+        "Intro": "Dennis Cliff Smith Jr. (born November 25, 1997) is an American professional basketball player who last played for the Brooklyn Nets of the National Basketball Association (NBA). He attended North Carolina State University for one season of college basketball and earned second-team all-conference honors in the Atlantic Coast Conference (ACC) as a freshman as well as ACC Freshman of the Year."
+    },
+    "Josh Magette": {
+        "playerID": "704",
+        "Name": "Josh Magette",
+        "Born": " (1989-11-28) November 28, 1989 (age\u00a034)Birmingham, Alabama, U.S.",
+        "Listed height": "6\u00a0ft 1\u00a0in (1.85\u00a0m)",
+        "Listed weight": "160\u00a0lb (73\u00a0kg)",
+        "High school": "Spain Park (Hoover, Alabama)",
+        "College": "Alabama\u2013Huntsville (2008\u20132012)",
+        "NBA draft": "2012: undrafted",
+        "Playing career": "2012\u20132023",
+        "Position": "Point guard",
+        "Teams": "[{\"2012\\u20132013\": \"Landstede Zwolle\"}, {\"2013\\u20132014\": \"Los Angeles D-Fenders\"}, {\"2014\\u20132015\": \"Koroivos Amaliadas\"}, {\"2015\\u20132017\": \"Los Angeles D-Fenders\"}, {\"2017\\u20132018\": \"Atlanta Hawks\"}, {\"2017\\u20132018\": \"\\u2192Erie BayHawks\"}, {\"2018\": \"Cedevita Zagreb\"}, {\"2018\\u20132019\": \"Gran Canaria\"}, {\"2019\\u20132020\": \"Orlando Magic\"}, {\"2019\\u20132020\": \"\\u2192Lakeland Magic\"}, {\"2020\": \"Lakeland Magic\"}, {\"2020\\u20132021\": \"Dar\\u00fc\\u015f\\u015fafaka Tekfen\"}, {\"2021\\u20132023\": \"Tasmania JackJumpers\"}]",
+        "Awards": "\nNBA D-League All-Star (2017)\n2\u00d7 All-NBA G League Second Team (2017, 2020)\nNBA G League assists leader (2018)\nDutch Basketball League steals leader (2013)\n2\u00d7 First-team Division II All-American (2011, 2012)\nGulf South Co-Player of the Year (2012)\nFirst-team All-Gulf South (2012)\nFirst-team All-Gulf South East Division (2011)\nSecond-team All-Gulf South East Division (2010)\nGulf South East Division Freshman of the Year (2009)\nGulf South tournament MVP (2012)\n",
+        "Intro": "Josh Magette (born November 28, 1989) is an American former professional basketball player who played for the Atlanta Hawks and the Orlando Magic in the NBA and several teams overseas. He played college basketball for the University of Alabama in Huntsville.\n\n\n== Early life ==\nBorn in Birmingham, Alabama, he graduated from Spain Park High School in Hoover, Alabama."
+    },
+    "Josh McRoberts": {
+        "playerID": "357",
+        "Name": "Josh McRoberts",
+        "Born": " (1987-02-28) February 28, 1987 (age\u00a037)Indianapolis, Indiana, U.S.",
+        "Nationality": "American",
+        "Listed height": "6\u00a0ft 10\u00a0in (2.08\u00a0m)",
+        "Listed weight": "240\u00a0lb (109\u00a0kg)",
+        "High school": "Carmel (Carmel, Indiana)",
+        "College": "Duke (2005\u20132007)",
+        "NBA draft": "2007: 2nd  round, 37th overall pick",
+        "Playing career": "2007\u20132018",
+        "Position": "Power forward",
+        "Number": "4, 32, 6, 17, 11, 13",
+        "Teams": "[{\"2007\\u20132008\": \"Portland Trail Blazers\"}, {\"2008\": \"\\u2192Idaho Stampede\"}, {\"2008\\u20132011\": \"Indiana Pacers\"}, {\"2011\\u20132012\": \"Los Angeles Lakers\"}, {\"2012\\u20132013\": \"Orlando Magic\"}, {\"2013\\u20132014\": \"Charlotte Bobcats\"}, {\"2014\\u20132017\": \"Miami Heat\"}, {\"2017\\u20132018\": \"Dallas Mavericks\"}]",
+        "Awards": "\nSecond-team All-ACC (2007)\nACC All-Defensive Team (2007)\nMcDonald's All-American MVP (2005)\nFirst-team Parade All-American (2005)\n",
+        "Intro": "Joshua Scott McRoberts (born February 28, 1987) is an American former professional basketball player who played eleven seasons in the National Basketball Association (NBA). McRoberts, a 6-foot-10-inch (2.08 m) power forward, played college basketball for the Duke Blue Devils. He was selected by the Portland Trail Blazers with the 37th overall pick in the 2007 NBA draft."
+    },
+    "Josh Christopher": {
+        "playerID": "2799",
+        "Name": "Josh Christopher",
+        "Position": "Shooting guard",
+        "Born": " (2001-12-08) December 8, 2001 (age\u00a022)Carson, California, U.S.",
+        "Listed height": "6\u00a0ft 4\u00a0in (1.93\u00a0m)",
+        "Listed weight": "215\u00a0lb (98\u00a0kg)",
+        "High school": "Mayfair(Lakewood, California)",
+        "College": "Arizona State (2020\u20132021)",
+        "NBA draft": "2021: 1st  round, 24th overall pick",
+        "Playing career": "2021\u2013present",
+        "Teams": "[{\"2021\\u20132023\": \"Houston Rockets\"}, {\"2021\\u20132022\": \"\\u2192Rio Grande Valley Vipers\"}, {\"2023\\u20132024\": \"Salt Lake City Stars\"}, {\"2024\": \"Sioux Falls Skyforce\"}, {\"2024\\u2013present\": \"Miami Heat\"}, {\"2024\\u2013present\": \"\\u2192Sioux Falls Skyforce\"}]",
+        "Awards": "\nNBA G League champion (2022)\nMcDonald's All-American (2020)\n",
+        "Intro": "Joshua Evan Christopher (born December 8, 2001) is an American professional basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Sioux Falls Skyforce of the NBA G League. He played college basketball for the Arizona State Sun Devils. He is a 6-foot-4-inch (1.93 m), 215-pound (98 kg) shooting guard."
+    }
 }
