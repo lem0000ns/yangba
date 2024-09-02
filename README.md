@@ -10,6 +10,8 @@ There are currently three different types of functionalities that the YangBA sup
 
 Additionally, there is a custom bonus stat called "OPI" (Offensive Performance Index) that was created to place a single value for a particular player's statline. Factors that contribute to OPI include points, efficiency, assists, turnovers, minutes played, and total points scored by the team. OPI values were normalized such that all values fall between 0 to 1.
 
+Frontend can be found here --> https://github.com/lem0000ns/yba_frontend
+
 ## Tech Stack
 
 JSON, Requests, MySQL, Boto3, Beautiful Soup
