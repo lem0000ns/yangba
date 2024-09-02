@@ -14,5 +14,4 @@ Frontend can be found here --> https://github.com/lem0000ns/yba_frontend
 
 ## Tech Stack
 
-JSON, Requests, MySQL, Boto3, Beautiful Soup
-AWS (Lambda, S3, API Gateway, Cloudfront, RDS, EC2)
+JSON, Requests, MySQL, Boto3, Beautiful Soup, AWS (Lambda, S3, API Gateway, Cloudfront, RDS, EC2), Threading
