@@ -25,7 +25,7 @@ connection = pymysql.connect(
 cursor = connection.cursor()
 table = " FROM version2 v INNER JOIN games g ON v.gameID = g.gameID"
 s3_client = boto3.client('s3', 'us-west-1')
-nameFile = s3_client.get_object(Bucket="nba-players.bucket", Key="names.txt")
+nameFile = s3_client.get_object(Bucket="nba-players.bucket", Key="allNames.txt")
 names = nameFile['Body'].read().decode('utf-8')
 
 class QueryComputer:
@@ -39,7 +39,7 @@ class QueryComputer:
             self.name = getClosestName(self.name)
             self.editDistanceTime = time.time() - startTime
         self.season = event['multiValueQueryStringParameters'].get('season', None)
-        self.stage = event['queryStringParameters'].get('stage', None)
+        self.stage = event['multiValueQueryStringParameters'].get('stage', None)
         self.filters = event['queryStringParameters'].get('filter', None)
         self.limit = event['queryStringParameters'].get('limit', None)
         self.team = event['queryStringParameters'].get('team', None)
@@ -101,7 +101,10 @@ class QueryComputer:
             query = query[:len(query) - 4]
             query += ")"
         if self.stage:
-            query += f" AND g.stage={self.stage}"
+            query += " AND ("
+            for s in self.stage:
+                query += f"g.stage={s} OR "
+            query = query[:len(query) - 4] + ")"
 
         return query
     
