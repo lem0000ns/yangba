@@ -62,10 +62,12 @@ def lambda_handler(event, context):
             
             season = event['multiValueQueryStringParameters'].get('season', None)
             filters = event['queryStringParameters'].get('filter', None)
+            startTime = time.time()
             if name:
                 res_body['percentile'] = compute_Percentile(name, stat, season, aggregate, filters)
             else:
                 res_body['percentile'] = 0
+            res_body['time']['percentile time'] = time.time() - startTime
             
         elif resource == 'rank':
             test = RankComputer(aggregate, event)
@@ -102,6 +104,18 @@ def lambda_handler(event, context):
                 res_body['time']['edit distance time'] = test.getEditDistanceTime()
             res_body['games'] = [dict(zip(columns, row)) for row in result]
             res_body['query'] = query
+        
+        elif resource == 'players':
+            name = event['queryStringParameters'].get('name', None)
+            if name:
+                res_body["player"] = {}
+                res_body["player"]["name"] = name
+                query = f"SELECT * FROM players WHERE name=\"{name}\""
+                cursor.execute(query)
+                result = cursor.fetchone()
+                cols = ["playerID", "name", "pos", "born", "height", "weight", "high_school", "college", "draft", "career", "teams", "awards", "intro"]
+                for i in range(len(cols)):
+                    res_body["player"][cols[i]] = result[i]
 
         http_res['statusCode'] = 200
     
