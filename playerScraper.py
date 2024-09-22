@@ -102,15 +102,11 @@ def wikibot(orig, name, url):
     return playerData
 
 @test_time
-def namesToSQL(allPlayerData):
+def namesToSQL():
     nameFile = s3_client.get_object(Bucket=bucket_name, Key="allNames.txt")
     names = nameFile['Body'].read().decode('utf-8')
 
-    c = 0
-
     for name in names.splitlines():
-        print(name)
-        c += 1
         cursor.execute("SELECT * FROM players WHERE name=\"{name}\"")
         name = " ".join([n.capitalize() for n in name.split(" ")])
         url = "https://en.wikipedia.org/wiki/" + name + " (basketball)"
@@ -123,19 +119,8 @@ def namesToSQL(allPlayerData):
                 orig = name
                 if paren != -1:
                     name = name[:paren-1]
-                allPlayerData[name] = wikibot(orig, name, url)
+                wikibot(orig, name, url)
         except Exception as e:
             print("Error fetching wiki data for " + name + " with error: " + str(e))
             continue
         connection.commit()
-        if c == 2:
-            break
-
-def dumpNames():
-    with open('names.txt', 'w') as f:
-        for name in allNames:
-            f.write(f"{name}\n")
-
-if __name__ == "__main__":
-    allPlayerData = {}
-    namesToSQL(allPlayerData)
